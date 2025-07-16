@@ -1,0 +1,25 @@
+:root{
+  --color-main-dark-500: #0f1920;
+  --color-main-dark-250: #3c637f;
+  --color-main-dark-150: #1a71b0;
+  --color-main-dark-100: #6cc2ff;
+  --color-transparent: #00000025;
+
+  --color-back-500: #202024;
+  
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
