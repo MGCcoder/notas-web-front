@@ -1,23 +1,57 @@
-import { useState } from 'react'
 import './App.css'
-import Navbar from './components/Navbar'
-import BaseModal from './modals/BaseModal'
-import Sidebar from './modals/Sidebar'
+import Home from './components/Home'
+import Error from './components/Error'
+import Panel from './components/Paneles/Panel'
+import PanelArchivo from './components/Paneles/PanelArchivo'
+import PanelPapelera from './components/Paneles/PanelPapelera'
+import Acceso from './components/Acceso'
+import Registro from './components/Registro'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
+import { AuthProvider } from './hooks/useAuth'
+import ProtectedRoute from './Routes/ProtectedRoute'
 
+
+const route = createHashRouter([
+  {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
+    errorElement: <Error />,
+    children: [
+      {
+        path: '',
+        element: <Panel />
+      },
+      {
+        path: 'archivo',
+        element: <PanelArchivo />,
+      },
+      {
+        path: 'papelera',
+        element: <PanelPapelera />,
+      },
+    ]
+  },
+  {
+    path: '/acceso',
+    element: <Acceso />,
+    errorElement: <Error />
+  },
+  {
+    path: '/registro',
+    element: <Registro />,
+    errorElement: <Error />
+  },
+]); 
 function App() {
-  const [toggleSideBar, setToggleSideBar] = useState(false);
-
-  const onToggleSideBar = () => {
-    setToggleSideBar(!toggleSideBar);
-  }
 
   return (
-    <div>
-      <Navbar onToggleSideBar={onToggleSideBar} />
-      <BaseModal open={toggleSideBar} onClose={onToggleSideBar} >
-        <Sidebar />
-      </BaseModal>
-    </div>
+    <AuthProvider>
+      <RouterProvider router={route} />
+    </AuthProvider>
   )
 }
 

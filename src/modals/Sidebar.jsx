@@ -1,29 +1,17 @@
-import { Box, Link, Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import NoteIcon from '@mui/icons-material/Note';
 import HomeIcon from '@mui/icons-material/Home';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ShieldIcon  from "@mui/icons-material/Shield";
 import DeleteIcon  from "@mui/icons-material/Delete";
-
-// Estilos
-const textColor = {
-  '&:hover': {
-    color: 'var(--color-main-dark-250)',
-    cursor: 'pointer'
-  }
-}
+import { Link } from "react-router-dom";
 
 
 const items = [
   {
     name: 'inicio',
-    url: 'inicio',
+    url: '',
     icono: <HomeIcon />
-  },
-  {
-    name: 'notas',
-    url: 'notas',
-    icono: <NoteIcon />
   },
   {
     name: 'archivo',
@@ -61,12 +49,13 @@ const Sidebar = () => {
         gap: 2
       }}>
         {
-          items.map((item) => (
-            <Link to={item.url} sx={{
-              textDecoration: 'none',
-              color: 'var(--color-main-dark-100)'
-            }}>
+          items.map((item, llave) => (
+            <Link 
+              to={item.url}
+              key={llave}
+            >
               <Stack sx={{
+                color: 'var(--color-main-dark-100)',
                 '&:hover': {
                   color: 'var(--color-main-dark-250)',
                   cursor: 'pointer'
@@ -78,7 +67,7 @@ const Sidebar = () => {
                 {
                   item.icono
                 }
-                <Typography sx={textColor}>
+                <Typography>
                   {item.name}
                 </Typography>
               </Stack >

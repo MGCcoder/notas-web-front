@@ -1,5 +1,7 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const textColor = {
     '&:hover': {
@@ -9,6 +11,10 @@ const textColor = {
     color: 'var(--color-main-dark-100)',
   }
 const Navbar = ({onToggleSideBar}) => {
+  const { logout, user } = useAuth();
+  const handleLogout = () => {
+    logout();
+  }
   return (
     <Box sx={{
       position: 'fixed',
@@ -33,7 +39,7 @@ const Navbar = ({onToggleSideBar}) => {
           <DensityMediumIcon />
         </IconButton>
         <Typography sx={textColor}>
-          MGC coder
+          { (user) ? (`${user.nombre} ${user.apellidos}`) : ('nombre apellidos') }
         </Typography>
       </Box>
       <Box sx={{
@@ -41,12 +47,21 @@ const Navbar = ({onToggleSideBar}) => {
         flexDirection: 'row',
         gap: '1rem'
       }}>
-        <Typography sx={textColor}>
-          Iniciar sesión
-        </Typography>
-        <Typography sx={textColor}>
-          Cerrar sesión
-        </Typography>
+        {
+          (user) ? (
+            <Link onClick={handleLogout}>
+              <Typography sx={textColor}>
+                Cerrar sesión
+              </Typography>
+          </Link>
+          ): (
+          <Link to="acceso">
+            <Typography sx={textColor}>
+              Iniciar sesión
+            </Typography>
+          </Link>
+          )
+        }
       </Box>
     </Box>
   );
