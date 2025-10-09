@@ -12,6 +12,12 @@ export const crear = async (datos) => {
   });
   return data;
 }
+export const actualizar = async (id, datos) => {
+  const { data } = await notasApi.put(`/nota/${id}`, datos).catch((error) => {
+    handleErrors(error);
+  });
+  return data;
+}
 export const eliminar = async (notaId) => {
   const { data } = await notasApi.delete(`/nota/${notaId}`).catch((error) => {
     handleErrors(error);

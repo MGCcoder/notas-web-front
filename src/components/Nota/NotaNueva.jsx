@@ -21,11 +21,11 @@ const NotaNueva = ({onSubmit}) => {
 
   return (
     <Card sx={{
-      width: "20vw"
-    }}
-    component="form"
-    onSubmit={handleSubmit}
-    >
+        width: "100%"
+      }}
+      component="form"
+      onSubmit={handleSubmit}
+      >
       <CardContent>
         <Typography variant="h4" sx={{mb: "1rem"}}>Crear nueva nota</Typography>
         <Stack flexDirection="column" sx={{

@@ -11,7 +11,7 @@ const Home = () => {
   const [toggleSideBar, setToggleSideBar] = useState(false);
   const { user } = useAuth();
 
-  asignarHeaders({ token: user.email});
+  asignarHeaders({ token: user.token});
 
   const onToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);

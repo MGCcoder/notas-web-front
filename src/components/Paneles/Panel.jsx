@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/material";
 import NotaNueva from "../Nota/NotaNueva";
 import Nota from "../Nota/Nota";
 import { useCallback, useEffect, useState } from "react";
-import { crear, eliminar, index } from '../../api/fetchNotas';
+import { actualizar, crear, eliminar, index } from '../../api/fetchNotas';
 import Loading from "../Loading";
 
 
@@ -27,6 +27,14 @@ const Panel = () => {
     Recargar();
   }, []);
 
+  const handleSubmitUpdate = useCallback( async (notaId, nuevaNota) => {
+    await actualizar(notaId, nuevaNota).then((response) => {
+      console.log(response);
+      // alert(JSON.stringify(response));
+    });
+    Recargar();
+  }, []);
+
   const handleDelete = useCallback( async (notaId) => {
     await eliminar(notaId).then((response) => {
       console.log(response);
@@ -40,7 +48,7 @@ const Panel = () => {
   return (
     <Grid 
     sx={{
-      mt: '6.7vh',
+      m: '15vh 0',
       minHeight: '92vh',
       minWidth: '90vw',
     }}
@@ -50,8 +58,7 @@ const Panel = () => {
           display: "flex",
           justifyContent: "center"
         }}
-        item
-        size={4}>
+        size={{sm:12, md:4}}>
           <Box sx={{
             m: "4rem"
           }}>
@@ -59,21 +66,19 @@ const Panel = () => {
           </Box>
       </Grid>
       <Grid 
-        item
-        size={8}
-        container>
+        size={{sm:12, md:8}}
+        container
+        spacing={1}>
           {
             notas.map((nota, llave) => (
               <Grid
-                sx={{
-                  m: "4rem"
-                }}
-                size={2.5}
+                size={4}
                 key={llave}>
                   <Nota notaId={nota.id} 
                     titulo={nota.titulo} 
                     contenido={nota.contenido} 
                     onDelete={handleDelete}
+                    onUpdate={handleSubmitUpdate}
                     />
               </Grid>
             ))
