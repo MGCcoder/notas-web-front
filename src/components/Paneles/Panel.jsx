@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/material";
 import NotaNueva from "../Nota/NotaNueva";
 import Nota from "../Nota/Nota";
 import { useCallback, useEffect, useState } from "react";
-import { actualizar, crear, eliminar, index } from '../../api/fetchNotas';
+import { update, create, index } from '../../api/fetchNotas';
 import Loading from "../Loading";
 
 
@@ -21,26 +21,27 @@ const Panel = () => {
   }
 
   const handleSubmit = useCallback( async (nota) => {
-    await crear(nota).then((response) => {
+    await create(nota).then((response) => {
       console.log(response);
     });
     Recargar();
   }, []);
 
-  const handleSubmitUpdate = useCallback( async (notaId, nuevaNota) => {
-    await actualizar(notaId, nuevaNota).then((response) => {
+  const handleSubmitUpdate = useCallback( async (notaId, params) => {
+    await update(notaId, params).then((response) => {
       console.log(response);
       // alert(JSON.stringify(response));
     });
     Recargar();
   }, []);
 
-  const handleDelete = useCallback( async (notaId) => {
-    await eliminar(notaId).then((response) => {
+  const handleRecicle = useCallback( async (notaId, params) => {
+    await update(notaId, params).then((response) => {
       console.log(response);
     });
     Recargar();
   },[]);
+
   if(!notas){
     return <Loading />
   }
@@ -77,8 +78,11 @@ const Panel = () => {
                   <Nota notaId={nota.id} 
                     titulo={nota.titulo} 
                     contenido={nota.contenido} 
-                    onDelete={handleDelete}
+                    onDelete={handleRecicle}
                     onUpdate={handleSubmitUpdate}
+                    reciclarB
+                    editarB
+                    archivarB
                     />
               </Grid>
             ))

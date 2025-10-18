@@ -1,24 +1,44 @@
 import { Card, CardActions, CardContent, IconButton, Typography } from '@mui/material';
-import  DeleteIcon  from '@mui/icons-material/Delete';
-import  EditIcon  from '@mui/icons-material/Edit';
-import  InventoryIcon  from '@mui/icons-material/Inventory';
 import { useState } from 'react';
 import NotaEditando from './NotaEditando';
+//Iconos
+import DeleteIcon  from '@mui/icons-material/Delete';
+import EditIcon  from '@mui/icons-material/Edit';
+import InventoryIcon  from '@mui/icons-material/Inventory';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import UndoIcon from '@mui/icons-material/Undo';
+import NotaBoton from './NotaBoton';
 
-const Nota = ({notaId, titulo, contenido, onDelete, onUpdate}) => {
+const Nota = ({notaId, titulo, contenido, onDelete, onUpdate,
+  eliminarB, reciclarB, editarB, archivarB, desarchivarB, restaurarB,
+}) => {
   const [edit, setEdit] = useState(false);
 
-  const handleDelete = () => {
-    if(confirm('¿Realmente quieres eliminar la nota?') == true){
-      onDelete(notaId);
-    }
-  }
   const handleSubmitUpdate = (nuevaNota) => {
     onUpdate(notaId, nuevaNota);
     handleSwitchEdit();
   }
   const handleSwitchEdit = () => {
     setEdit(!edit);
+  }
+  const handleArchive = () => {
+    onUpdate(notaId, {estado: 'archivado'});
+  }
+  const handleUnarchive = () => {
+    onUpdate(notaId, {estado: 'visible'});
+  }
+  const handleRestore = () => {
+    onUpdate(notaId, {estado: 'visible'});
+  }
+  const handleRecicle = () => {
+    if(confirm('¿Realmente quieres reciclar esta nota?') == true){
+      onUpdate(notaId, {estado: 'papelera'});
+    }
+  }
+  const handleDelete = () => {
+    if(confirm('¿Realmente quieres eliminar esta nota?') == true){
+      onDelete(notaId);
+    }
   }
   return (
     <Card sx={{
@@ -48,15 +68,24 @@ const Nota = ({notaId, titulo, contenido, onDelete, onUpdate}) => {
                 }}>{contenido}</Typography>
             </CardContent>
             <CardActions>
-              <IconButton color="error" onClick={handleDelete}>
+              <NotaBoton mostrar={reciclarB} color="error" onClick={handleRecicle}>
                 <DeleteIcon />
-              </IconButton>
-              <IconButton color="primary" onClick={handleSwitchEdit}>
+              </NotaBoton>
+              <NotaBoton mostrar={eliminarB} color="error" onClick={handleDelete}>
+                <DeleteIcon />
+              </NotaBoton>
+              <NotaBoton mostrar={editarB} color="primary" onClick={handleSwitchEdit}>
                 <EditIcon />
-              </IconButton>
-              <IconButton>
+              </NotaBoton>
+              <NotaBoton mostrar={archivarB} onClick={handleArchive}>
                 <InventoryIcon />
-              </IconButton>
+              </NotaBoton>
+              <NotaBoton mostrar={desarchivarB} onClick={handleUnarchive}>
+                <UnarchiveIcon />
+              </NotaBoton>
+              <NotaBoton mostrar={restaurarB} onClick={handleRestore}>
+                <UndoIcon />
+              </NotaBoton>
             </CardActions>
           </>
         )
